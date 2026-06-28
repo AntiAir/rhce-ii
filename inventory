@@ -1,0 +1,6 @@
+[dev]
+node1
+
+[prod]
+node2
+node3

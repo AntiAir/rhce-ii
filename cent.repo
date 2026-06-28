@@ -1,0 +1,24 @@
+---
+- name: 設定預設軟體倉
+  hosts: all
+  become: true
+  tasks:
+    - name: 建立 BaseOS 軟體倉
+      yum_repository:
+        name: BaseOS
+        description: BaseOS Repository
+        file: cent
+        baseurl: http://workstation.lab.example.com/BaseOS/
+        enabled: true
+        gpgcheck: true
+        gpgkey: http://workstation.lab.example.com/GPGKEY/RPM-GPG-KEY-centosofficial
+
+    - name: 建立 AppStream 軟體倉
+      yum_repository:
+        name: cent_appstream
+        description: CentOS AppStream Repository
+        file: cent
+        baseurl: http://workstation.lab.example.com/AppStream/
+        enabled: true
+        gpgcheck: true
+        gpgkey: http://workstation.lab.example.com/GPGKEY/RPM-GPG-KEY-centosofficial
