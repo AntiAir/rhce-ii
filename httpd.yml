@@ -1,0 +1,47 @@
+---
+- name: 佈署與管理 Apache 網頁伺服器 (83 埠口專用版)     # if change port
+  hosts: all
+  become: true
+  tasks:
+    - name: "嘗試安裝 httpd 軟體 (若已手動安裝或Repo損壞則自動跳過)"
+      yum:
+        name: httpd
+        state: present
+      ignore_errors: true  # 👈 關鍵地雷防護：就算 Repo 壞掉也絕不卡死
+
+    - name: "移除 CentOS 預設測試歡迎頁面設定"
+      file:
+        path: /etc/httpd/conf.d/welcome.conf
+        state: absent
+
+    - name: "建立預設首頁 index.html"
+      copy:
+        content: "Welcome to Ansible Web Server on Port 83!" # if change port
+        dest: /var/www/html/index.html
+
+    - name: "將 Apache 設定為監聽 83 埠口"     # if change port
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen '
+        line: 'Listen 83'                       # if change port
+
+    - name: "配置 SELinux 放行 HTTP 83 埠口"         # if change port
+      seport:
+        ports: 83                                    # if change port
+        proto: tcp
+        setype: http_port_t
+        state: present
+
+    - name: "設定防火牆開放 83 埠口"                 # if change port
+      firewalld:
+        port: 83/tcp                                  # if change port
+        permanent: true
+        immediate: true
+        state: enabled
+
+    - name: "強制重啟 Apache 服務以套用新埠口"
+      service:
+        name: httpd
+        state: restarted
+        enabled: true
+
