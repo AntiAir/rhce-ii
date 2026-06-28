@@ -1,4 +1,4 @@
-# RHCE-II Ansible 自動化專案
+# RHCE-II Ansible 自動化專案 test
 
 本專案用於管理與部署自動化運維環境，主要包含針對 CentOS 系統的配置管理、服務部署（如 Apache HTTPD）以及系統生命週期管理的 Ansible Playbooks。
 
