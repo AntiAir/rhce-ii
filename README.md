@@ -4,16 +4,16 @@ RHCE preparation
 
 ## 📌 Files
 
-*   **`ansible.cfg`**：Ansible 主設定檔，定義了主機清單路徑及基本連線參數。
+*   **`ansible.cfg`**：Ansible parameters。
 *   **`inventory`**：Controlled terminal definition
-*   **`httpd.yml`**：自動化部署 Apache Web 服務的 Playbook（已配置自訂埠口 83）。
-*   **`cent_lifecycle.yml`**：管理 CentOS 系統生命週期的 Playbook。
-*   **`cent.yml` / `cent_absent.yml`**：CentOS 基礎環境配置與移除的相關腳本。
-*   **`packages.sh`**：用於環境初始化或套件檢查的 Shell 腳本。
+*   **`packages.sh`**： Shell script to build up repository
+*   **`cent.yml` / `cent_absent.yml`**：Add and Delete the repository
+*   **`cent_lifecycle.yml`**：Repository to add or delete by using parameters.
+*   **`httpd.yml`**：Deploy Apache Web using port 83. Make a manual to remind to change port number in manual if the question to indicate another specific port.
 
 
 ### 1. Preparation
-確保您的控制節點（Control Node）已安裝 Ansible，且能夠透過 SSH 免密碼登入 `inventory` 中定義的所有受控節點。
+Make sure（Control Node） Ansible installed， SSH every nodes without password defined in `inventory` 。
 ansible.cfg
 [defaults]
 inventory = ./inventory
