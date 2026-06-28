@@ -1,0 +1,16 @@
+---
+- name: 移除預設軟體倉
+  hosts: all
+  become: true
+  tasks:
+    - name: 移除 BaseOS 軟體倉
+      yum_repository:
+        name: BaseOS
+        file: cent
+        state: absent
+
+    - name: 移除 AppStream 軟體倉
+      yum_repository:
+        name: cent_appstream
+        file: cent
+        state: absent

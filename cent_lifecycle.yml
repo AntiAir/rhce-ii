@@ -1,0 +1,42 @@
+---
+- name: 管理預設軟體倉生命週期
+  hosts: all
+  become: true
+  tasks:
+    # ====== 建立與啟用階段 ======
+    - name: 建立 BaseOS 軟體倉
+      yum_repository:
+        name: BaseOS
+        description: BaseOS Repository
+        file: cent
+        baseurl: http://workstation.lab.example.com/BaseOS/
+        enabled: true
+        gpgcheck: true
+        gpgkey: http://workstation.lab.example.com/GPGKEY/RPM-GPG-KEY-centosofficial
+      tags: [install, create]
+
+    - name: 建立 AppStream 軟體倉
+      yum_repository:
+        name: cent_appstream
+        description: CentOS AppStream Repository
+        file: cent
+        baseurl: http://workstation.lab.example.com/AppStream/
+        enabled: true
+        gpgcheck: true
+        gpgkey: http://workstation.lab.example.com/GPGKEY/RPM-GPG-KEY-centosofficial
+      tags: [install, create]
+
+    # ====== 移除與清理階段 ======
+    - name: 移除 BaseOS 軟體倉
+      yum_repository:
+        name: BaseOS
+        file: cent
+        state: absent
+      tags: [remove, delete]
+
+    - name: 移除 AppStream 軟體倉
+      yum_repository:
+        name: cent_appstream
+        file: cent
+        state: absent
+      tags: [remove, delete]
